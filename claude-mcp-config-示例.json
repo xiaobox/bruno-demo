@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "bruno": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "bruno-mcp"
+      ],
+      "env": {
+        "BRUNO_COLLECTION_PATH": "/Users/helong/Desktop/tmp-cc/bruno-demo"
+      }
+    }
+  }
+}
