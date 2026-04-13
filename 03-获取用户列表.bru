@@ -1,0 +1,40 @@
+meta {
+  name: 获取用户列表
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/users?limit=5&skip=0
+  body: none
+  auth: none
+}
+
+params:query {
+  limit: 5
+  skip: 0
+}
+
+tests {
+  test("获取用户列表应该返回 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("应该返回 5 条用户数据", function() {
+    expect(res.body.users).to.be.an("array");
+    expect(res.body.users.length).to.equal(5);
+  });
+
+  test("分页字段应该完整", function() {
+    expect(res.body.total).to.be.a("number");
+    expect(res.body.skip).to.equal(0);
+    expect(res.body.limit).to.equal(5);
+  });
+
+  test("每个用户都应该有 id 和 email", function() {
+    res.body.users.forEach(function(user) {
+      expect(user.id).to.be.a("number");
+      expect(user.email).to.be.a("string");
+    });
+  });
+}

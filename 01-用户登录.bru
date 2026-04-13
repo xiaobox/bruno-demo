@@ -1,0 +1,51 @@
+meta {
+  name: 用户登录
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "{{username}}",
+    "password": "{{password}}",
+    "expiresInMins": 30
+  }
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setVar("authToken", res.body.accessToken);
+    bru.setVar("userId", res.body.id);
+  }
+}
+
+tests {
+  test("登录应该返回 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("响应中应该包含 accessToken", function() {
+    expect(res.body.accessToken).to.be.a("string");
+    expect(res.body.accessToken.length).to.be.greaterThan(0);
+  });
+
+  test("响应中应该包含用户基本信息", function() {
+    expect(res.body.id).to.be.a("number");
+    expect(res.body.username).to.equal("emilys");
+    expect(res.body.email).to.be.a("string");
+  });
+
+  test("响应时间应该小于 2 秒", function() {
+    expect(res.responseTime).to.be.lessThan(2000);
+  });
+}

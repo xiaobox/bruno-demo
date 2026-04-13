@@ -1,0 +1,25 @@
+meta {
+  name: 错误处理-未授权
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: invalid_token_for_testing
+}
+
+tests {
+  test("无效 token 应该返回 401", function() {
+    expect(res.status).to.equal(401);
+  });
+
+  test("应该返回错误信息", function() {
+    expect(res.body.message).to.be.a("string");
+  });
+}

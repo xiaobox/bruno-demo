@@ -1,0 +1,32 @@
+meta {
+  name: 获取用户信息
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/auth/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+tests {
+  test("获取用户信息应该返回 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("用户名应该匹配登录账号", function() {
+    expect(res.body.username).to.equal("emilys");
+  });
+
+  test("应该返回完整的用户字段", function() {
+    expect(res.body.id).to.be.a("number");
+    expect(res.body.email).to.be.a("string");
+    expect(res.body.firstName).to.be.a("string");
+    expect(res.body.lastName).to.be.a("string");
+  });
+}
