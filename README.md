@@ -117,11 +117,23 @@ bru run --env production --reporter-html report.html
   run: bru run --env production --reporter-junit junit.xml
 ```
 
-## 为什么不是 Postman
+## 为什么不是 Postman / Apifox
 
-Postman 也有 CLI（Newman），但 Postman 的核心数据存在云端、操作靠 GUI、协作靠登录，这三件事每一件都把 AI agent 挡在外面。
+Postman 也有 CLI（Newman），Apifox 自己也有 apifox-cli 和 MCP Server。这两个工具都意识到了 AI 浪潮，并且都做了集成。但它们和 Bruno 走的是两条完全不同的路。
 
-Bruno 的核心数据是 .bru 文本文件、操作靠 CLI、协作靠 Git。每一件都正好是 AI 最擅长的那种事。
+|  | Postman / Apifox | Bruno |
+|--|------------------|-------|
+| 数据存储 | 云端为主 | 本地 .bru 文件 |
+| 协作方式 | 平台账号 / 实时同步 | Git |
+| AI 集成方式 | 通过 MCP Server 让 AI 连接平台 | 文本文件 + 终端命令，AI 原生支持 |
+| AI 能做什么 | 通过 MCP 读取 API 文档生成代码 | 直接读 / 写 / 跑 / 调试测试 |
+| 中间层 | MCP 协议 + 平台 API | 没有中间层 |
+
+**Apifox 的哲学是「我是平台，AI 来连我」。Bruno 的哲学是「我什么都不是，我就是文件」。**
+
+前者适合需要权限管理、实时协作、统一文档管理的企业级场景。后者适合把测试当成代码、希望 AI 直接读写硬盘文件、不想被任何账号或云端绑定的开发者工作流。
+
+这个 demo 仓库里的 06 和 07 两个测试用例，就是 Bruno 哲学的真实演示——AI 完整地读、写、跑、调试，全程没有任何中间层，没有任何 MCP 配置，没有任何账号登录。
 
 ## 相关链接
 
