@@ -1,0 +1,40 @@
+meta {
+  name: 搜索商品
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/products/search?q=phone
+  body: none
+  auth: none
+}
+
+params:query {
+  q: phone
+}
+
+tests {
+  test("搜索接口应该返回 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("应该返回 products 数组", function() {
+    expect(res.body.products).to.be.an("array");
+    expect(res.body.products.length).to.be.greaterThan(0);
+  });
+
+  test("每个商品都应该有 title 和 price", function() {
+    res.body.products.forEach(function(product) {
+      expect(product.title).to.be.a("string");
+      expect(product.price).to.be.a("number");
+    });
+  });
+
+  test("搜索结果里应该至少有一个商品标题包含 phone", function() {
+    var found = res.body.products.some(function(p) {
+      return p.title.toLowerCase().indexOf("phone") !== -1;
+    });
+    expect(found).to.equal(true);
+  });
+}

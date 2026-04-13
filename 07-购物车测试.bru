@@ -1,0 +1,33 @@
+meta {
+  name: 购物车测试
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/carts/1
+  body: none
+  auth: none
+}
+
+tests {
+  test("获取购物车应该返回 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("购物车应该有 total 字段", function() {
+    expect(res.body.total).to.be.a("number");
+  });
+
+  test("购物车应该有 products 数组", function() {
+    expect(res.body.products).to.be.an("array");
+    expect(res.body.products.length).to.be.greaterThan(0);
+  });
+
+  test("每个商品都应该有价格和数量", function() {
+    res.body.products.forEach(function(p) {
+      expect(p.price).to.be.a("number");
+      expect(p.quantity).to.be.a("number");
+    });
+  });
+}
