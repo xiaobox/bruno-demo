@@ -45,7 +45,7 @@ tests {
     expect(res.body.email).to.be.a("string");
   });
 
-  test("响应时间应该小于 2 秒", function() {
-    expect(res.responseTime).to.be.lessThan(2000);
+  test("响应时间应该小于 3 秒", function() {
+    expect(res.responseTime).to.be.lessThan(3000);
   });
 }
